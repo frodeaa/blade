@@ -301,7 +301,11 @@ public class ServletRequest implements Request {
 	public Integer queryAsInt(String name) {
 		String value = query(name);
 		if (null != value) {
-			return Integer.valueOf(value);
+			try {
+				return Integer.valueOf(value);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -310,7 +314,11 @@ public class ServletRequest implements Request {
 	public Long queryAsLong(String name) {
 		String value = query(name);
 		if (null != value) {
-			return Long.valueOf(value);
+			try {
+				return Long.valueOf(value);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -328,7 +336,11 @@ public class ServletRequest implements Request {
 	public Float queryAsFloat(String name) {
 		String value = query(name);
 		if (null != value) {
-			return Float.valueOf(value);
+			try {
+				return Float.valueOf(value);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -337,7 +349,11 @@ public class ServletRequest implements Request {
 	public Double queryAsDouble(String name) {
 		String value = query(name);
 		if (null != value) {
-			return Double.valueOf(value);
+			try {
+				return Double.valueOf(value);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
 		return null;
 	}
