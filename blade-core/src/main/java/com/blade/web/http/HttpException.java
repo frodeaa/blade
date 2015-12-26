@@ -24,6 +24,7 @@ package com.blade.web.http;
 public class HttpException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
+	private Response response;
 
 	public HttpException() {
 		super();
@@ -39,6 +40,15 @@ public class HttpException extends RuntimeException {
 
 	public HttpException(Throwable throwable) {
 		super(throwable);
+	}
+
+	public HttpException with(Response response) {
+		this.response = response;
+		return this;
+	}
+
+	public Response getResponse() {
+		return response;
 	}
 
 }

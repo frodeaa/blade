@@ -34,6 +34,7 @@ import com.blade.route.Route;
 import com.blade.route.RouteHandler;
 import com.blade.route.RouteMatcher;
 import com.blade.route.Routers;
+import com.blade.web.http.HttpException;
 import com.blade.web.http.HttpStatus;
 import com.blade.web.http.Path;
 import com.blade.web.http.Request;
@@ -113,6 +114,21 @@ public class SyncRequestHandler {
 			// Not found
 			render404(response, uri);
 			return;
+		} catch (HttpException e) {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(ThrowableKit.getStackTraceAsString(e));
+			}
+
+			if (e.getResponse() == null) {
+				response.status(500);
+			}
+
+			if (!httpResponse.isCommitted()) {
+				if (e.getResponse() == null) {
+					response.html(Const.INTERNAL_ERROR);
+				}
+				return;
+			}
 		} catch (Exception e) {
         	
         	String error = ThrowableKit.getStackTraceAsString(e);

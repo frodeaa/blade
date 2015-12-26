@@ -34,6 +34,7 @@ import com.blade.render.ModelAndView;
 import com.blade.route.Route;
 import com.blade.route.RouteHandler;
 import com.blade.route.RouteMatcher;
+import com.blade.web.http.HttpException;
 import com.blade.web.http.HttpStatus;
 import com.blade.web.http.Path;
 import com.blade.web.http.Request;
@@ -125,6 +126,22 @@ public class AsynRequestHandler implements Runnable {
 			render404(response, uri);
 			asyncContext.complete();
 			return;
+		} catch (HttpException e) {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(ThrowableKit.getStackTraceAsString(e));
+			}
+
+			if (e.getResponse() == null) {
+				httpResponse.setStatus(500);
+			}
+
+			if (!httpResponse.isCommitted()) {
+				if (e.getResponse() == null) {
+					response.html(Const.INTERNAL_ERROR);
+				}
+				asyncContext.complete();
+				return;
+			}
 		} catch (Exception e) {
         	String error = ThrowableKit.getStackTraceAsString(e);
             LOGGER.error(error);
