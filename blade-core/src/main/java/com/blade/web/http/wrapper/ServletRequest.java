@@ -224,7 +224,11 @@ public class ServletRequest implements Request {
 	public Integer paramAsInt(String name) {
 		String value = param(name);
 		if (null != value) {
-			return Integer.valueOf(value);
+			try {
+				return Integer.valueOf(value);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -233,7 +237,11 @@ public class ServletRequest implements Request {
 	public Long paramAsLong(String name) {
 		String value = param(name);
 		if (null != value) {
-			return Long.valueOf(value);
+			try {
+				return Long.valueOf(value);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
 		return null;
 	}
